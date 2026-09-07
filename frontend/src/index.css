@@ -1,12 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&display=swap');
-
-@font-face {
-  font-family: 'Dirtyline';
-  src: url('https://fonts.cdnfonts.com/s/15011/Dirtyline36DaysofType.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -16,125 +8,195 @@
   box-sizing: border-box;
 }
 
+/* ─── Palette ──────────────────────────────────────────────────────────
+   Moving away from the near-black / neon-glass look toward an
+   "instrument panel" feel: warm paper surfaces, graphite ink, and a
+   brass / teal duo borrowed from calibration-dial colors instead of
+   cyan-violet neon.
+   ────────────────────────────────────────────────────────────────── */
+:root {
+  --paper: #EDE7DB;
+  --paper-deep: #E1D9C6;
+  --card: #FAF7EF;
+  --card-hover: #FFFFFB;
+  --ink: #221F1A;
+  --line: #DAD0B8;
+  --line-strong: #C4B896;
+  --brass: #A5672C;
+  --brass-deep: #7E4E20;
+  --teal: #2B6459;
+  --teal-deep: #1E4941;
+  --good: #3C7A49;
+  --good-soft: #E4EFE1;
+  --bad: #AF3A2C;
+  --bad-soft: #F5E1DC;
+  --font-base: 17px;
+}
+
+html {
+  font-size: var(--font-base);
+}
+
 html, body {
   margin: 0;
   padding: 0;
-  background: #000;
+  background: var(--paper);
   font-family: 'Barlow', sans-serif;
-  color: #fff;
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ─── Liquid Glass ─────────────────────────────────────────────────────── */
+#root { min-height: 100vh; }
 
-.liquid-glass {
-  background: rgba(255,255,255,0.01);
-  background-blend-mode: luminosity;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: none;
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
-  position: relative;
-  overflow: hidden;
+/* ─── Type helpers ─────────────────────────────────────────────────── */
+.font-heading { font-family: 'Fraunces', serif; }
+.font-body { font-family: 'Barlow', sans-serif; }
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Ink / semantic color utilities ──────────────────────────────────
+   Plain CSS classes (not Tailwind arbitrary values) so they work
+   regardless of the project's Tailwind config/version.
+   ────────────────────────────────────────────────────────────────── */
+.text-ink       { color: var(--ink); }
+.text-ink-80    { color: var(--ink); opacity: .82; }
+.text-ink-75    { color: var(--ink); opacity: .76; }
+.text-ink-70    { color: var(--ink); opacity: .70; }
+.text-ink-60    { color: var(--ink); opacity: .60; }
+.text-ink-50    { color: var(--ink); opacity: .52; }
+.text-ink-40    { color: var(--ink); opacity: .44; }
+.text-ink-30    { color: var(--ink); opacity: .36; }
+
+.text-paper     { color: var(--paper); }
+.text-paper-80  { color: var(--paper); opacity: .82; }
+.text-brass     { color: var(--brass); }
+.text-teal      { color: var(--teal); }
+.text-good      { color: var(--good); }
+.text-bad       { color: var(--bad); }
+
+.bg-paper       { background: var(--paper); }
+.bg-paper-deep  { background: var(--paper-deep); }
+.bg-card        { background: var(--card); }
+.bg-ink         { background: var(--ink); }
+.bg-brass       { background: var(--brass); }
+.bg-teal        { background: var(--teal); }
+.bg-wash        { background: rgba(34, 31, 26, 0.045); }
+.bg-wash-strong { background: rgba(34, 31, 26, 0.08); }
+.bg-good-soft   { background: var(--good-soft); }
+.bg-bad-soft    { background: var(--bad-soft); }
+
+.border-hair        { border-color: var(--line); }
+.border-hair-strong  { border-color: var(--line-strong); }
+.border-brass       { border-color: var(--brass); }
+.border-teal        { border-color: var(--teal); }
+.border-good        { border-color: var(--good); }
+.border-bad         { border-color: var(--bad); }
+.border-t-brass     { border-top-color: var(--brass); }
+
+/* ─── Buttons ──────────────────────────────────────────────────────── */
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  transition: background-color .2s ease, transform .15s ease;
 }
-.liquid-glass::before {
-  content: "";
-  position: absolute; inset: 0;
-  border-radius: inherit;
-  padding: 1.4px;
-  background: linear-gradient(180deg,
-    rgba(255,255,255,0.45) 0%,
-    rgba(255,255,255,0.15) 20%,
-    rgba(255,255,255,0)    40%,
-    rgba(255,255,255,0)    60%,
-    rgba(255,255,255,0.15) 80%,
-    rgba(255,255,255,0.45) 100%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+.btn-primary:hover:not(:disabled) { background: var(--brass-deep); }
+.btn-primary:active:not(:disabled) { transform: scale(0.98); }
+.btn-primary:disabled { opacity: .38; cursor: not-allowed; }
+
+.btn-ghost {
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  transition: background-color .2s ease, border-color .2s ease, transform .15s ease;
+}
+.btn-ghost:hover { background: var(--card-hover); border-color: var(--line-strong); }
+.btn-ghost:active { transform: scale(0.98); }
+
+.cta-brass {
+  background: var(--brass);
+  color: var(--paper);
+  transition: background-color .2s ease, transform .15s ease;
+}
+.cta-brass:hover { background: var(--brass-deep); }
+.cta-brass:active { transform: scale(0.97); }
+
+/* Note: since "brass"/"teal"/"ink" aren't colors Tailwind's engine knows
+   about, `hover:bg-brass` etc. won't compile to anything — interactive
+   states for custom classes are written explicitly below instead. */
+.text-ink-70:hover, .text-ink-60:hover { color: var(--ink); }
+
+/* ─── Panels (formerly "liquid glass") ───────────────────────────────
+   Same role — chrome bars, pills, nav — restyled as warm paper cards
+   with a hairline edge instead of a dark frosted-glass effect.
+   ────────────────────────────────────────────────────────────────── */
+.liquid-glass {
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(34,31,26,0.04);
+  position: relative;
 }
 
 .liquid-glass-strong {
-  background: rgba(255,255,255,0.01);
-  background-blend-mode: luminosity;
-  backdrop-filter: blur(50px);
-  -webkit-backdrop-filter: blur(50px);
-  border: none;
-  box-shadow: 4px 4px 4px rgba(0,0,0,0.05), inset 0 1px 1px rgba(255,255,255,0.15);
-  position: relative;
-  overflow: hidden;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: 0 4px 16px rgba(34,31,26,0.18);
+  transition: background-color .2s ease;
 }
-.liquid-glass-strong::before {
-  content: "";
-  position: absolute; inset: 0;
-  border-radius: inherit;
-  padding: 1.4px;
-  background: linear-gradient(180deg,
-    rgba(255,255,255,0.5) 0%,
-    rgba(255,255,255,0.2) 20%,
-    rgba(255,255,255,0)   40%,
-    rgba(255,255,255,0)   60%,
-    rgba(255,255,255,0.2) 80%,
-    rgba(255,255,255,0.5) 100%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
+.liquid-glass-strong:hover { background: var(--brass-deep); border-color: var(--brass-deep); }
+
+.liquid-glass { transition: background-color .15s ease, border-color .15s ease; }
+.liquid-glass:hover { background: var(--card-hover); border-color: var(--line-strong); }
 
 /* ─── Hero Title ──────────────────────────────────────────────────────── */
-
 .hero-title {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-size: clamp(64px, 12vw, 200px);
-  line-height: 0.92;
-  letter-spacing: -0.02em;
-  color: white;
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-optical-sizing: auto;
+  font-size: clamp(56px, 10vw, 168px);
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+  color: #fff;
   text-align: center;
 }
 
 /* ─── Custom Scrollbar ─────────────────────────────────────────────────── */
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--paper);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.15);
+  background: var(--line-strong);
   border-radius: 9999px;
 }
 
 /* ─── Experiment Cards ─────────────────────────────────────────────────── */
 
 .card-glass {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--card);
+  border: 1px solid var(--line);
   border-radius: 16px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 .card-glass:hover {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.18);
+  background: var(--card-hover);
+  border-color: var(--line-strong);
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 24px rgba(34,31,26,0.10);
 }
 .card-glass.selected {
-  background: rgba(0,212,255,0.08);
-  border-color: rgba(0,212,255,0.5);
-  box-shadow: 0 0 24px rgba(0,212,255,0.15), inset 0 1px 1px rgba(0,212,255,0.2);
+  background: #FBF1E4;
+  border-color: var(--brass);
+  box-shadow: 0 0 0 3px rgba(165,103,44,0.14), 0 8px 20px rgba(165,103,44,0.14);
 }
 
 /* ─── Progress Bar ─────────────────────────────────────────────────────── */
 
 .progress-bar-fill {
-  background: linear-gradient(90deg, #00d4ff, #7c3aed);
+  background: linear-gradient(90deg, var(--brass), var(--teal));
   border-radius: 9999px;
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -145,38 +207,61 @@ html, body {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 4px;
+  height: 5px;
   border-radius: 9999px;
-  background: rgba(255,255,255,0.1);
+  background: var(--line);
   outline: none;
 }
 .custom-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #00d4ff, #7c3aed);
+  background: var(--brass);
   cursor: pointer;
-  box-shadow: 0 0 8px rgba(0,212,255,0.4);
+  box-shadow: 0 0 0 4px rgba(165,103,44,0.16);
   transition: transform 0.15s;
 }
 .custom-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
+  transform: scale(1.15);
+}
+/* Tailwind's `placeholder:` variant can't target our custom ink-30 class,
+   so set placeholder color directly for form fields in the app. */
+input::placeholder, textarea::placeholder {
+  color: var(--ink);
+  opacity: 0.36;
 }
 
-/* ─── Glow Text ──────────────────────────────────────────────────────── */
+/* Same story as hover: above — `focus:border-brass` can't be generated by
+   Tailwind for a color it doesn't know, so the two text inputs on the
+   onboarding form get their focus state here instead. */
+input[type="text"]:focus, input[type="number"]:focus {
+  border-color: var(--brass);
+  background: rgba(34, 31, 26, 0.08);
+}
+
+.custom-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: var(--brass);
+  cursor: pointer;
+}
+
+/* ─── Emphasis text (replaces neon text-shadow glow) ───────────────── */
 .glow-cyan {
-  text-shadow: 0 0 24px rgba(0,212,255,0.6), 0 0 48px rgba(0,212,255,0.2);
+  color: var(--brass);
 }
 .glow-violet {
-  text-shadow: 0 0 24px rgba(124,58,237,0.6);
+  color: var(--teal);
 }
 
-/* ─── Animated gradient BG ──────────────────────────────────────────── */
+/* ─── Page background wash ─────────────────────────────────────────── */
 .gradient-bg {
-  background: radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.15) 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 20%, rgba(0,212,255,0.12) 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 80%, rgba(16,185,129,0.08) 0%, transparent 50%),
-              #000;
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(165,103,44,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 100%, rgba(43,100,89,0.10) 0%, transparent 55%),
+    var(--paper);
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
 const NAV_LINKS = ['Gallery', 'Styles', 'API', 'Pricing', 'Blog']
@@ -8,9 +8,9 @@ const VIDEO_SRC =
 function LogoMark() {
   return (
     <svg width="44" height="26" viewBox="0 0 44 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0"  y="3" width="14" height="20" rx="3" fill="white" />
-      <rect x="16" y="3" width="12" height="20" rx="3" fill="white" />
-      <rect x="30" y="3" width="14" height="20" rx="3" fill="white" />
+      <rect x="0"  y="3" width="14" height="20" rx="3" fill="#A5672C" />
+      <rect x="16" y="3" width="12" height="20" rx="3" fill="#F4EFE2" />
+      <rect x="30" y="3" width="14" height="20" rx="3" fill="#2B6459" />
     </svg>
   )
 }
@@ -158,7 +158,7 @@ export default function HeroPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black text-white font-body overflow-x-hidden">
+    <div className="min-h-screen bg-ink text-paper font-body overflow-x-hidden">
       {/* ── Video background ───────────────────────────────────────── */}
       <div
         ref={videoBgRef}
@@ -182,7 +182,7 @@ export default function HeroPage() {
       </div>
 
       {/* ── Dark overlay ──────────────────────────────────────────── */}
-      <div className="fixed inset-0 z-0 bg-black/40" />
+      <div className="fixed inset-0 z-0 bg-black/45" />
 
       {/* ── Hero title ────────────────────────────────────────────── */}
       <div
@@ -196,14 +196,14 @@ export default function HeroPage() {
 
       {/* ── Nav ───────────────────────────────────────────────────── */}
       <nav className="fixed top-5 left-1/2 -translate-x-1/2 z-50 whitespace-nowrap">
-        <div className="liquid-glass flex items-center gap-6 rounded px-4 py-2.5">
+        <div className="liquid-glass flex items-center gap-6 rounded-full px-5 py-3">
           <LogoMark />
           <div className="flex items-center gap-5">
             {NAV_LINKS.map(link => (
               <a
                 key={link}
                 href="#"
-                className="text-sm font-body font-light text-white/70 hover:text-white transition-colors duration-200"
+                className="text-base font-body font-medium text-ink-70 transition-colors duration-200"
               >
                 {link}
               </a>
@@ -212,13 +212,13 @@ export default function HeroPage() {
           <div className="flex items-center gap-3 ml-4">
             <a
               href="#"
-              className="text-sm font-body font-light text-white/70 hover:text-white transition-colors duration-200"
+              className="text-base font-body font-medium text-ink-70 transition-colors duration-200"
             >
               Sign in
             </a>
             <a
               href="/experiment"
-              className="liquid-glass-strong text-sm font-body font-medium text-white rounded px-4 py-1.5 transition-all duration-200 hover:scale-[1.04] hover:shadow-[0_0_16px_2px_rgba(255,255,255,0.12)] active:scale-[0.97]"
+              className="liquid-glass-strong text-base font-body font-semibold rounded-full px-5 py-2 transition-all duration-200 hover:scale-[1.04] active:scale-[0.97]"
             >
               Try it free
             </a>
@@ -233,7 +233,7 @@ export default function HeroPage() {
         }`}
       >
         {/* Left */}
-        <p className="text-sm font-body font-light text-white/75 max-w-[220px] leading-relaxed">
+        <p className="text-base font-body font-normal text-paper-80 max-w-[240px] leading-relaxed">
           Predicts your optimal choice-set size using behavioral decision science.
         </p>
 
@@ -241,21 +241,20 @@ export default function HeroPage() {
         <div className="absolute left-1/2 -translate-x-1/2 bottom-0 flex items-center gap-3">
           <a
             href="/experiment"
-            className="group relative bg-white text-black text-sm font-body font-medium rounded px-6 py-3 overflow-hidden active:scale-[0.97] transition-all duration-200 shadow-[0_0_0_0_rgba(255,255,255,0)] hover:shadow-[0_0_24px_4px_rgba(255,255,255,0.25)] hover:scale-[1.03]"
+            className="cta-brass group relative text-base font-body font-semibold rounded-full px-7 py-3.5 overflow-hidden active:scale-[0.97] transition-all duration-200 shadow-[0_4px_20px_rgba(165,103,44,0.35)] hover:scale-[1.03]"
           >
             <span className="relative z-10">Start experiment</span>
-            <span className="absolute inset-0 bg-gradient-to-b from-white to-white/85 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
           </a>
           <a
             href="/admin"
-            className="liquid-glass group text-white text-sm font-body font-medium rounded px-6 py-3 active:scale-[0.97] transition-all duration-200 hover:scale-[1.03] hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_0_20px_2px_rgba(255,255,255,0.07)]"
+            className="liquid-glass group text-base font-body font-semibold rounded-full px-7 py-3.5 active:scale-[0.97] transition-all duration-200 hover:scale-[1.03]"
           >
             Admin dashboard
           </a>
         </div>
 
         {/* Right */}
-        <p className="text-sm font-body font-light text-white/75 max-w-[220px] leading-relaxed text-right">
+        <p className="text-base font-body font-normal text-paper-80 max-w-[240px] leading-relaxed text-right">
           Describe what you see in your head — get images that actually match.
         </p>
       </div>

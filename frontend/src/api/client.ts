@@ -1,8 +1,30 @@
 import axios from 'axios'
 
-const BASE = '/api'
+// On Vercel the frontend is static/serverless — it can't reach a FastAPI
+// backend on '/api' unless you either (a) point it at a separately-hosted
+// backend via VITE_API_URL, or (b) add a rewrite in vercel.json (see
+// DEPLOY.md). Locally, it still falls back to '/api' via the Vite dev
+// proxy, so nothing changes for local dev.
+const BASE = import.meta.env.VITE_API_URL || '/api'
 
 const http = axios.create({ baseURL: BASE })
+
+// ── Currency ─────────────────────────────────────────────────────────────
+// Trial data comes from the backend in USD (`price`). Display everything
+// in INR without changing the backend/API contract.
+export const USD_TO_INR = 83
+
+export function toINR(usd: number): number {
+  return Math.round(usd * USD_TO_INR)
+}
+
+export function formatINR(usd: number): string {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0,
+  }).format(toINR(usd))
+}
 
 export interface ParticipantOut {
   id: string

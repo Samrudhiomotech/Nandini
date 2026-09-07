@@ -29,9 +29,9 @@ WEIGHTS = {
     "display_inches": 0.10,
 }
 
-# Realistic ranges
+# Realistic ranges (Prices in Indian Rupees)
 ATTR_RANGES = {
-    "price":          (499, 2499),
+    "price":          (44900, 199900),
     "battery_hours":  (4.0, 20.0),
     "ram_gb":         [8, 16, 32, 64],
     "storage_gb":     [256, 512, 1024, 2048],

@@ -11,9 +11,6 @@ import {
   CartesianGrid,
   Tooltip,
   ReferenceLine,
-  LineChart,
-  Line,
-  Legend,
 } from 'recharts'
 import { Brain, TrendingUp, Target, Award, ArrowLeft } from 'lucide-react'
 import { predict, getResults, type PredictionOut, type ResultsOut } from '../api/client'
@@ -49,8 +46,8 @@ export default function ResultsPage() {
     return (
       <div className="min-h-screen gradient-bg flex items-center justify-center">
         <div className="text-center space-y-4">
-          <div className="w-14 h-14 border-2 border-violet-500/30 border-t-violet-400 rounded-full animate-spin mx-auto" />
-          <p className="text-white/50 text-sm">Loading your results…</p>
+          <div className="w-14 h-14 border-2 border-hair-strong border-t-brass rounded-full animate-spin mx-auto" />
+          <p className="text-ink-50 text-base">Loading your results…</p>
         </div>
       </div>
     )
@@ -60,8 +57,8 @@ export default function ResultsPage() {
     return (
       <div className="min-h-screen gradient-bg flex items-center justify-center">
         <div className="text-center space-y-4">
-          <p className="text-red-400">{error}</p>
-          <Link to="/" className="text-white/50 text-sm underline">Back to home</Link>
+          <p className="text-bad text-base">{error}</p>
+          <Link to="/" className="text-ink-50 text-sm underline">Back to home</Link>
         </div>
       </div>
     )
@@ -80,7 +77,7 @@ export default function ResultsPage() {
       size: `N=${size}`,
       sizeNum: Number(size),
       DEI: parseFloat(dei.toFixed(3)),
-      fill: Number(size) === iocs ? '#00d4ff' : '#7c3aed',
+      fill: Number(size) === iocs ? '#A5672C' : '#2B6459',
     }))
 
   // Validation comparison
@@ -94,41 +91,41 @@ export default function ResultsPage() {
     }))
 
   return (
-    <div className="min-h-screen gradient-bg text-white">
+    <div className="min-h-screen gradient-bg text-ink">
       {/* Header */}
-      <div className="border-b border-white/5 px-6 py-4 flex items-center gap-4">
-        <Link to="/" className="text-white/40 hover:text-white/80 transition-colors">
-          <ArrowLeft size={18} />
+      <div className="border-b border-hair px-6 py-4 flex items-center gap-4">
+        <Link to="/" className="text-ink-40">
+          <ArrowLeft size={20} />
         </Link>
         <div className="flex items-center gap-2">
-          <Brain size={18} className="text-cyan-400" />
-          <span className="font-body text-sm text-white/70">ACA Platform — Results</span>
+          <Brain size={20} className="text-brass" />
+          <span className="font-body text-base text-ink-70">ACA Platform — Results</span>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-10 space-y-10">
         {/* Hero result */}
         <div className="text-center space-y-4">
-          <p className="text-white/40 text-sm uppercase tracking-widest font-body">Your Individual Optimal Choice-Set Size</p>
-          <div className="text-8xl font-heading italic glow-cyan text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 to-cyan-600">
+          <p className="text-ink-50 text-sm font-body">Your individual optimal choice-set size</p>
+          <div className="text-8xl font-heading glow-cyan">
             {iocs}
           </div>
-          <p className="text-white/60 text-sm max-w-md mx-auto leading-relaxed">
+          <p className="text-ink-60 text-base max-w-md mx-auto leading-relaxed">
             {results.message}
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
-            <div className="liquid-glass rounded px-4 py-2 text-sm">
-              <span className="text-white/40">Confidence </span>
-              <span className="text-cyan-400 font-mono">R²={prediction.confidence.toFixed(3)}</span>
+            <div className="liquid-glass rounded-full px-4 py-2 text-sm">
+              <span className="text-ink-40">Confidence </span>
+              <span className="text-brass font-mono">R²={prediction.confidence.toFixed(3)}</span>
             </div>
-            <div className="liquid-glass rounded px-4 py-2 text-sm">
-              <span className="text-white/40">Method </span>
-              <span className="text-violet-400 font-mono capitalize">{(prediction.curve_params as any)?.method ?? 'Gaussian'}</span>
+            <div className="liquid-glass rounded-full px-4 py-2 text-sm">
+              <span className="text-ink-40">Method </span>
+              <span className="text-teal font-mono capitalize">{(prediction.curve_params as any)?.method ?? 'Gaussian'}</span>
             </div>
             {results.improvement_pct !== null && (
-              <div className="liquid-glass rounded px-4 py-2 text-sm">
-                <span className="text-white/40">Improvement </span>
-                <span className={`font-mono ${results.improvement_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+              <div className="liquid-glass rounded-full px-4 py-2 text-sm">
+                <span className="text-ink-40">Improvement </span>
+                <span className={`font-mono ${results.improvement_pct >= 0 ? 'text-good' : 'text-bad'}`}>
                   {results.improvement_pct > 0 ? '+' : ''}{results.improvement_pct}%
                 </span>
               </div>
@@ -139,29 +136,29 @@ export default function ResultsPage() {
         {/* ── Gaussian Curve ── */}
         <div className="card-glass p-6 rounded-2xl">
           <div className="flex items-center gap-2 mb-6">
-            <TrendingUp size={16} className="text-cyan-400" />
-            <h2 className="text-sm font-body font-medium text-white/80 uppercase tracking-widest">
-              DEI vs Choice-Set Size — Fitted Curve
+            <TrendingUp size={18} className="text-brass" />
+            <h2 className="text-base font-body font-medium text-ink-80">
+              DEI vs choice-set size — fitted curve
             </h2>
           </div>
           <ResponsiveContainer width="100%" height={260}>
             <AreaChart data={curvePoints} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="gaussGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#00d4ff" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#00d4ff" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#A5672C" stopOpacity={0.35} />
+                  <stop offset="95%" stopColor="#A5672C" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="x" stroke="rgba(255,255,255,0.2)" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11 }} label={{ value: 'Choice Set Size', position: 'insideBottom', offset: -2, fill: 'rgba(255,255,255,0.3)', fontSize: 11 }} />
-              <YAxis stroke="rgba(255,255,255,0.2)" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11 }} label={{ value: 'DEI', angle: -90, position: 'insideLeft', fill: 'rgba(255,255,255,0.3)', fontSize: 11 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,31,26,0.08)" />
+              <XAxis dataKey="x" stroke="rgba(34,31,26,0.25)" tick={{ fill: 'rgba(34,31,26,0.55)', fontSize: 12 }} label={{ value: 'Choice set size', position: 'insideBottom', offset: -2, fill: 'rgba(34,31,26,0.45)', fontSize: 12 }} />
+              <YAxis stroke="rgba(34,31,26,0.25)" tick={{ fill: 'rgba(34,31,26,0.55)', fontSize: 12 }} label={{ value: 'DEI', angle: -90, position: 'insideLeft', fill: 'rgba(34,31,26,0.45)', fontSize: 12 }} />
               <Tooltip
-                contentStyle={{ background: 'rgba(0,0,0,0.85)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, fontSize: 12 }}
-                labelStyle={{ color: 'rgba(255,255,255,0.6)' }}
-                itemStyle={{ color: '#00d4ff' }}
+                contentStyle={{ background: '#FAF7EF', border: '1px solid #DAD0B8', borderRadius: 12, fontSize: 13 }}
+                labelStyle={{ color: 'rgba(34,31,26,0.6)' }}
+                itemStyle={{ color: '#A5672C' }}
               />
-              <ReferenceLine x={prediction.predicted_iocs} stroke="#00d4ff" strokeDasharray="6 3" label={{ value: `IOCS=${iocs}`, fill: '#00d4ff', fontSize: 11 }} />
-              <Area type="monotone" dataKey="y" stroke="#00d4ff" strokeWidth={2} fill="url(#gaussGrad)" dot={false} />
+              <ReferenceLine x={prediction.predicted_iocs} stroke="#A5672C" strokeDasharray="6 3" label={{ value: `IOCS=${iocs}`, fill: '#A5672C', fontSize: 12 }} />
+              <Area type="monotone" dataKey="y" stroke="#A5672C" strokeWidth={2} fill="url(#gaussGrad)" dot={false} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -170,22 +167,22 @@ export default function ResultsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="card-glass p-6 rounded-2xl">
             <div className="flex items-center gap-2 mb-6">
-              <Target size={16} className="text-violet-400" />
-              <h2 className="text-sm font-body font-medium text-white/80 uppercase tracking-widest">Calibration DEI</h2>
+              <Target size={18} className="text-teal" />
+              <h2 className="text-base font-body font-medium text-ink-80">Calibration DEI</h2>
             </div>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={calibData} margin={{ top: 0, right: 10, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                <XAxis dataKey="size" stroke="rgba(255,255,255,0.2)" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10 }} />
-                <YAxis stroke="rgba(255,255,255,0.2)" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10 }} domain={[-0.4, 0.8]} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,31,26,0.08)" />
+                <XAxis dataKey="size" stroke="rgba(34,31,26,0.25)" tick={{ fill: 'rgba(34,31,26,0.55)', fontSize: 11 }} />
+                <YAxis stroke="rgba(34,31,26,0.25)" tick={{ fill: 'rgba(34,31,26,0.55)', fontSize: 11 }} domain={[-0.4, 0.8]} />
                 <Tooltip
-                  contentStyle={{ background: 'rgba(0,0,0,0.85)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, fontSize: 12 }}
-                  itemStyle={{ color: '#a78bfa' }}
+                  contentStyle={{ background: '#FAF7EF', border: '1px solid #DAD0B8', borderRadius: 12, fontSize: 13 }}
+                  itemStyle={{ color: '#2B6459' }}
                 />
-                <ReferenceLine y={0} stroke="rgba(255,255,255,0.1)" />
+                <ReferenceLine y={0} stroke="rgba(34,31,26,0.15)" />
                 <Bar dataKey="DEI" radius={[6, 6, 0, 0]}>
                   {calibData.map((entry, index) => (
-                    <rect key={index} fill={entry.sizeNum === iocs ? '#00d4ff' : '#7c3aed'} />
+                    <rect key={index} fill={entry.fill} />
                   ))}
                 </Bar>
               </BarChart>
@@ -194,21 +191,21 @@ export default function ResultsPage() {
 
           <div className="card-glass p-6 rounded-2xl">
             <div className="flex items-center gap-2 mb-6">
-              <Award size={16} className="text-emerald-400" />
-              <h2 className="text-sm font-body font-medium text-white/80 uppercase tracking-widest">Validation DEI</h2>
+              <Award size={18} className="text-good" />
+              <h2 className="text-base font-body font-medium text-ink-80">Validation DEI</h2>
             </div>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={valData} margin={{ top: 0, right: 10, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                <XAxis dataKey="size" stroke="rgba(255,255,255,0.2)" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10 }} />
-                <YAxis stroke="rgba(255,255,255,0.2)" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10 }} domain={[-0.4, 0.8]} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,31,26,0.08)" />
+                <XAxis dataKey="size" stroke="rgba(34,31,26,0.25)" tick={{ fill: 'rgba(34,31,26,0.55)', fontSize: 11 }} />
+                <YAxis stroke="rgba(34,31,26,0.25)" tick={{ fill: 'rgba(34,31,26,0.55)', fontSize: 11 }} domain={[-0.4, 0.8]} />
                 <Tooltip
-                  contentStyle={{ background: 'rgba(0,0,0,0.85)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, fontSize: 12 }}
-                  itemStyle={{ color: '#34d399' }}
+                  contentStyle={{ background: '#FAF7EF', border: '1px solid #DAD0B8', borderRadius: 12, fontSize: 13 }}
+                  itemStyle={{ color: '#3C7A49' }}
                 />
-                <ReferenceLine y={0} stroke="rgba(255,255,255,0.1)" />
+                <ReferenceLine y={0} stroke="rgba(34,31,26,0.15)" />
                 <Bar dataKey="DEI" radius={[6, 6, 0, 0]}
-                  fill="#10b981"
+                  fill="#3C7A49"
                 />
               </BarChart>
             </ResponsiveContainer>
@@ -217,32 +214,32 @@ export default function ResultsPage() {
 
         {/* Raw DEI table */}
         <div className="card-glass p-6 rounded-2xl">
-          <h2 className="text-sm font-body font-medium text-white/80 uppercase tracking-widest mb-5">DEI Scores by Set Size</h2>
+          <h2 className="text-base font-body font-medium text-ink-80 mb-5">DEI scores by set size</h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm font-body">
+            <table className="w-full text-base font-body">
               <thead>
-                <tr className="border-b border-white/5">
-                  <th className="text-left text-white/40 font-normal pb-3 pr-6">Phase</th>
+                <tr className="border-b border-hair">
+                  <th className="text-left text-ink-40 font-normal pb-3 pr-6">Phase</th>
                   {[3,6,9,12,18].map(s => (
-                    <th key={s} className={`text-center text-white/40 font-normal pb-3 px-3 ${s === iocs ? 'text-cyan-400' : ''}`}>
+                    <th key={s} className={`text-center text-ink-40 font-normal pb-3 px-3 ${s === iocs ? 'text-brass' : ''}`}>
                       N={s} {s === iocs ? '★' : ''}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-white/5">
-                  <td className="py-3 pr-6 text-white/60">Calibration</td>
+                <tr className="border-b border-hair">
+                  <td className="py-3 pr-6 text-ink-60">Calibration</td>
                   {[3,6,9,12,18].map(s => (
-                    <td key={s} className={`text-center py-3 px-3 font-mono ${s === iocs ? 'text-cyan-400' : 'text-white/70'}`}>
+                    <td key={s} className={`text-center py-3 px-3 font-mono ${s === iocs ? 'text-brass' : 'text-ink-70'}`}>
                       {results.calibration_dei[String(s)] ?? '—'}
                     </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="py-3 pr-6 text-white/60">Validation</td>
+                  <td className="py-3 pr-6 text-ink-60">Validation</td>
                   {[3,6,9,12,18].map(s => (
-                    <td key={s} className={`text-center py-3 px-3 font-mono ${s === iocs ? 'text-emerald-400' : 'text-white/70'}`}>
+                    <td key={s} className={`text-center py-3 px-3 font-mono ${s === iocs ? 'text-good' : 'text-ink-70'}`}>
                       {results.validation_dei[String(s)] ?? '—'}
                     </td>
                   ))}
@@ -253,11 +250,11 @@ export default function ResultsPage() {
         </div>
 
         <div className="flex gap-4 justify-center flex-wrap">
-          <Link to="/experiment" className="bg-white text-black font-body font-semibold text-sm rounded-full px-6 py-3 hover:bg-white/90 transition-all">
-            Run New Experiment
+          <Link to="/experiment" className="btn-primary font-body font-semibold text-base rounded-full px-6 py-3 transition-all">
+            Run new experiment
           </Link>
-          <Link to="/admin" className="liquid-glass text-white font-body text-sm rounded-full px-6 py-3 hover:bg-white/5 transition-all">
-            Admin Dashboard
+          <Link to="/admin" className="btn-ghost font-body text-base rounded-full px-6 py-3 transition-all">
+            Admin dashboard
           </Link>
         </div>
       </div>
